@@ -1,0 +1,151 @@
+spawn(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/Reapvitalized/GoldenHeadIsRetarded/refs/heads/main/whatdidhedo.lua"))() end)
+
+function info(txt)
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Credits = Instance.new("TextLabel")
+pcall(function() game.CoreGui.Revit:Destroy() end)
+task.wait(.1)
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.IgnoreGuiInset = true
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Name = 'Revit'
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MainFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
+
+
+spawn(function()
+Credits.Parent = ScreenGui
+Credits.Font=Enum.Font.Arcade
+Credits.TextColor3=Color3.new(1,1,1)
+Credits.Position = UDim2.new(0,0,0,0)
+Credits.TextSize = 35
+Credits.Size = UDim2.new(1,0,.1,0)
+Credits.Text = ''
+Credits.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Credits.BorderColor3 = Color3.fromRGB(255, 0, 0)
+end)
+function tw(var,s)
+local a = ""
+local s_l = #s
+for i = 1, s_l do
+local c = string.sub(s, i, i)
+a = a .. c
+var.Text = a
+if c == "." then
+wait(.6)
+elseif c == ";" then
+wait(.3)
+elseif c == "," then
+wait(.3)
+elseif c == "!" then
+wait(.3)
+end
+wait(.03)
+end end
+tw(Credits,txt)
+task.wait(2)
+ScreenGui:Destroy()
+end
+
+spawn(function()
+info('The Script is still in development. Follow the Discord is "https://discord.gg/qACTw4DKhD"')
+end)
+
+function CreateWeld(Part0, Part1, C0, C1, parent)
+    local Weld = Instance.new("Weld")
+    Weld.Part0 = Part0
+    Weld.Part1 = Part1
+    Weld.C0 = C0
+    Weld.C1 = C1
+    Weld.Parent = parent
+    return Weld
+end
+
+function FindAttachment(Model, AttachmentName)
+    for _, Child in ipairs(Model:GetChildren()) do
+        if Child:IsA("Attachment") and Child.Name == AttachmentName then
+            return Child
+        elseif not Child:IsA("Accoutrement") and not Child:IsA("Tool") then
+            local found = FindAttachment(Child, AttachmentName)
+            if found then
+                return found
+            end
+        end
+    end
+end
+
+function sAddAccessory(Accessory, AttachmentPoint, character)
+    local Handle = Accessory:FindFirstChild("Handle")
+
+    if Handle then
+        local Attachment = Handle:FindFirstChildOfClass("Attachment")
+        Accessory.Parent = character
+        if Attachment then
+            local CharacterAttachment = FindAttachment(character, Attachment.Name)
+            if CharacterAttachment then
+                CreateWeld(CharacterAttachment.Parent, Attachment.Parent, CharacterAttachment.CFrame, Attachment.CFrame, CharacterAttachment.Parent)
+            end
+        else
+            local TargetPart = character:FindFirstChild(AttachmentPoint)
+            if TargetPart then
+                CreateWeld(TargetPart, Handle, CFrame.new(0, 0, 0), Accessory.AttachmentPoint, TargetPart)
+            end
+        end
+    elseif Accessory:IsA("Shirt") or Accessory:IsA("Pants") then
+        for _, obj in pairs(character:GetChildren()) do
+            if (Accessory:IsA("Shirt") and obj:IsA("Shirt")) or (Accessory:IsA("Pants") and obj:IsA("Pants")) then
+                obj:Destroy()
+            end
+        end
+        task.wait()
+        Accessory.Parent = character
+    end
+end
+
+
+function AddAccessory(id, AttachmentPoint, character)
+    local success, Accessory = pcall(function() return game:GetObjects("rbxassetid://" .. id)[1] end)
+    if success then
+        sAddAccessory(Accessory, AttachmentPoint, character)
+    else
+        warn("Failed to add accessory, invalid assetId or other")
+    end
+end
+local colors = {
+    ["Head"] = Color3.fromRGB(245, 205, 48),
+    ["Torso"] = Color3.fromRGB(255, 176, 0),
+    ["Right Leg"] = Color3.fromRGB(105, 64, 40),
+    ["Left Leg"] = Color3.fromRGB(105, 64, 40),
+    ["Right Arm"] = Color3.fromRGB(245, 205, 48),
+    ["Left Arm"] = Color3.fromRGB(245, 205, 48)
+}
+function reallycooldummy()
+	for i,v in pairs(workspace.Live["Weakest Dummy"]:GetDescendants()) do
+		task.spawn(function()
+			if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("CharacterMesh") or v:IsA("BodyColors") then
+				v:Destroy()
+			end
+		end)
+		task.spawn(function()
+			if v:IsA("BasePart") and colors[v.Name] then
+				task.wait()
+				v.Color = colors[v.Name]
+			end
+		end)
+	end
+	AddAccessory(15744552888, "Torso", workspace.Live["Weakest Dummy"])
+	AddAccessory(18733289807, "Head", workspace.Live["Weakest Dummy"])
+	workspace.Live["Weakest Dummy"].Head:FindFirstChild("Dead Face").Texture = "http://www.roblox.com/asset/?id=12524633896"
+	workspace.Live["Weakest Dummy"].Humanoid.DisplayName = "The Retard GoldenHead"
+end
+reallycooldummy()
+workspace.Live.ChildAdded:Connect(function(v)
+	if v.Name == "Weakest Dummy" then
+		task.wait(.1)
+		reallycooldummy()
+	end
+end)
