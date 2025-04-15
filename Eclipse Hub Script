@@ -137,10 +137,10 @@ function reallycooldummy()
 			end
 		end)
 	end
-	AddAccessory(15744552888, "Torso", workspace.Live["Weakest Dummy"])
-	AddAccessory(18733289807, "Head", workspace.Live["Weakest Dummy"])
+	AddAccessory(1045076832, "Torso", workspace.Live["Weakest Dummy"])
+	AddAccessory(1045076832, "Head", workspace.Live["Weakest Dummy"])
 	workspace.Live["Weakest Dummy"].Head:FindFirstChild("Dead Face").Texture = "http://www.roblox.com/asset/?id=1045076832"
-	workspace.Live["Weakest Dummy"].Humanoid.DisplayName = "GoldenHead"
+	workspace.Live["Weakest Dummy"].Humanoid.DisplayName = "The Retard GoldenHead"
 end
 reallycooldummy()
 workspace.Live.ChildAdded:Connect(function(v)
